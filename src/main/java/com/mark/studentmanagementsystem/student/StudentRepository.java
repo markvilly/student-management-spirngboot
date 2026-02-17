@@ -36,4 +36,11 @@ public class StudentRepository {
                 .filter(s -> s.getId().equals(id))
                 .findFirst();
     }
+
+    public void deleteById(Long id){
+        boolean removed = students.removeIf(s -> s.getId().equals(id));
+        if(!removed){
+            throw new NotFoundException("Student with id " + id + " not found ");
+        }
+    }
 }

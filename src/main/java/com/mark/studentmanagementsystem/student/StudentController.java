@@ -4,7 +4,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.mark.studentmanagementsystem.student.dto.CreateStudentRequest;
+import com.mark.studentmanagementsystem.student.dto.UpdateStudentRequest;
+
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
@@ -33,7 +36,21 @@ public class StudentController {
         return service.getStudent(id);
     }
 
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteStudent(@PathVariable Long id){
+        service.deleteStudent(id);
+    }
+
+    @PatchMapping("/{id}")
+    public Student patchStudent(@PathVariable Long id, @RequestBody UpdateStudentRequest req){
+        return service.patchStudent(id, req);
+    }
+
     
+
+
+
 
 }
 
