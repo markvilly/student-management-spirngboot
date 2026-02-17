@@ -76,10 +76,12 @@ public class StudentService {
             throw new BadRequestException("Last Name is required");
         }
 
-
         Student existing = repo.findById(id)
-                            .orElseThrow(()-> new NotFoundException("Student with id " + id + " is not found."));
+                .orElseThrow(()-> new NotFoundException("Student with id " + id + " is not found."));
 
+        existing.setFirstName(req.getFirstName());
+        existing.setLastName(req.getLastName());
+        
         return existing;
     }
 

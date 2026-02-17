@@ -47,7 +47,11 @@ public class StudentController {
         return service.patchStudent(id, req);
     }
 
-    
+    @PutMapping("{id}")
+    public Student putStudent(@PathVariable Long id, @RequestBody CreateStudentRequest req){
+        return service.replaceStudent(id, req);
+    }
+
 
 
 
