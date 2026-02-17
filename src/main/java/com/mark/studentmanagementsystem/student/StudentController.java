@@ -12,7 +12,7 @@ import java.util.List;
 @RequestMapping("api/students")
 public class StudentController {
 
-    public final StudentService service;
+    private final StudentService service;
 
     public StudentController(StudentService service){
         this.service = service;
@@ -27,6 +27,14 @@ public class StudentController {
     public Student createStudent(@RequestBody CreateStudentRequest req){
         return service.createStudent(req);
     }
+
+    @GetMapping("/{id}")
+    public Student getStudent(@PathVariable Long id){
+        return service.getStudent(id);
+    }
+
+    
+
 }
 
 
