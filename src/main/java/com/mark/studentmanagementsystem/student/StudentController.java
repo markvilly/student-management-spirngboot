@@ -9,6 +9,8 @@ import com.mark.studentmanagementsystem.student.dto.UpdateStudentRequest;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 
+import jakarta.validation.Valid;
+
 import java.util.List;
 
 @RestController
@@ -27,7 +29,7 @@ public class StudentController {
     }
 
     @PostMapping
-    public Student createStudent(@RequestBody CreateStudentRequest req){
+    public Student createStudent(@Valid @RequestBody CreateStudentRequest req){
         return service.createStudent(req);
     }
 
@@ -48,7 +50,7 @@ public class StudentController {
     }
 
     @PutMapping("{id}")
-    public Student putStudent(@PathVariable Long id, @RequestBody CreateStudentRequest req){
+    public Student putStudent(@PathVariable Long id, @Valid @RequestBody CreateStudentRequest req){
         return service.replaceStudent(id, req);
     }
 

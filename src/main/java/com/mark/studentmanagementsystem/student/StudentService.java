@@ -23,13 +23,6 @@ public class StudentService {
     }
 
     public Student createStudent(CreateStudentRequest req){
-        if(req.getFirstName().isBlank() || req.getFirstName() == null){
-            throw new BadRequestException("First name is required");
-        }
-        
-        if(req.getLastName().isBlank() || req.getLastName() == null){
-            throw new BadRequestException("Last name is required");
-        }
 
         Student s = new Student(null, req.getFirstName(), req.getLastName());
         return repo.create(s);
@@ -67,14 +60,6 @@ public class StudentService {
     }
 
     public Student replaceStudent(Long id, CreateStudentRequest req){
-
-        if(req.getFirstName() == null || req.getFirstName().isBlank()){
-            throw new BadRequestException("First Name is required");
-        }
-
-        if(req.getLastName() == null || req.getLastName().isBlank()){
-            throw new BadRequestException("Last Name is required");
-        }
 
         Student existing = repo.findById(id)
                 .orElseThrow(()-> new NotFoundException("Student with id " + id + " is not found."));
