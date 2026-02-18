@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import jakarta.validation.Valid;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/students")
@@ -45,8 +46,8 @@ public class StudentController {
     }
 
     @PatchMapping("/{id}")
-    public Student patchStudent(@PathVariable Long id, @RequestBody UpdateStudentRequest req){
-        return service.patchStudent(id, req);
+    public Student patchStudent(@PathVariable Long id, @Valid @RequestBody Map<String, Object> updates){
+        return service.patchStudent(id, updates);
     }
 
     @PutMapping("{id}")

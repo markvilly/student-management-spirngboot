@@ -6,6 +6,8 @@ import com.mark.studentmanagementsystem.student.dto.CreateStudentRequest;
 import com.mark.studentmanagementsystem.student.dto.UpdateStudentRequest;
 
 import java.util.List;
+import java.util.Set;
+import java.util.Map;
 
 
 
@@ -37,23 +39,44 @@ public class StudentService {
         repo.deleteById(id);
     }
 
-    public Student patchStudent(Long id, UpdateStudentRequest req){
+    public Student patchStudent(Long id, Map<String, Object> updates){
         Student existing = repo.findById(id)
                 .orElseThrow(() -> new NotFoundException("Student with id " + id + " not found"));
 
-                if(req.getFirstName() != null && req.getFirstName().isBlank()){
-                    throw new BadRequestException("First Name should not be blank");
-                }
-                if(req.getLastName() != null && req.getLastName().isBlank()){
-                    throw new BadRequestException("Last Name should not be blank");
+
+                // Optional: rejects unknown fields (good API hygiene)
+                Set<String> allowed = Set.of("firstName", "lastName");
+                for(String key: updates.keySet()){
+                    if(!allowed.contains(key)){
+                        throw new BadRequestException("Unknown field: " + key);
+                    }
                 }
 
-                if(req.getFirstName() != null){
-                    existing.setFirstName(req.getFirstName());
+                if(updates.containsKey("firstName")){
+                    Object value = updates.get("firstName");
+
+                    if(value == null){
+                        //CLEAR FIELDS
+                        existing.setFirstName(null);
+                    }else if(value instanceof String s){
+                        if(s.isBlank()) throw new BadRequestException("First name cannot be blank");
+                        existing.setFirstName(s);
+                    }else{
+                        throw new BadRequestException("First name must be a string or null");
+                    }
                 }
 
-                if(req.getLastName() != null){
-                    existing.setLastName(req.getLastName());
+                if(updates.containsKey("lastName")){
+                    Object value = updates.get("lastName");
+
+                    if(value == null){
+                        existing.setLastName(null);
+                    }else if(value instanceof String s){
+                        if(s.isBlank()) throw new BadRequestException("Last name cannot be blank");
+                        existing.setLastName(s);
+                    }else{
+                        throw new BadRequestException("Last name must be string or null");
+                    }
                 }
 
                 return existing;

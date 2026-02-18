@@ -1,12 +1,12 @@
 package com.mark.studentmanagementsystem.student.dto;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
 
 public class UpdateStudentRequest {
-    // @NotBlank(message = "First name cannot be blank")
+    @Pattern(regexp = ".*\\S.*", message = "First name cannot be blank")
     private String firstName;
-    // @NotBlank(message = "Last name cannot be blank")
+    @Pattern(regexp = ".*\\S.*", message = "Last name cannot be blank")
     private String lastName;
 
     public String getFirstName(){
@@ -22,5 +22,5 @@ public class UpdateStudentRequest {
     public void setLastName(String lName){
         this.lastName = lName;
     }
-
+    
 }
