@@ -3,7 +3,7 @@ package com.mark.studentmanagementsystem.student;
 import org.springframework.stereotype.Service;
 
 import com.mark.studentmanagementsystem.student.dto.CreateStudentRequest;
-import com.mark.studentmanagementsystem.student.dto.UpdateStudentRequest;
+
 
 import java.util.List;
 import java.util.Set;
@@ -27,7 +27,7 @@ public class StudentService {
     public Student createStudent(CreateStudentRequest req){
 
         Student s = new Student(null, req.getFirstName(), req.getLastName());
-        return repo.create(s);
+        return repo.save(s);
     }
 
     public Student getStudent(Long id){
@@ -36,6 +36,9 @@ public class StudentService {
     }
 
     public void deleteStudent(Long id) {
+        if(!repo.existsById(id)){
+            throw new NotFoundException("Student with id " + id + " is not found");
+        }
         repo.deleteById(id);
     }
 
@@ -79,7 +82,7 @@ public class StudentService {
                     }
                 }
 
-                return existing;
+                return repo.save(existing);
     }
 
     public Student replaceStudent(Long id, CreateStudentRequest req){
@@ -90,7 +93,7 @@ public class StudentService {
         existing.setFirstName(req.getFirstName());
         existing.setLastName(req.getLastName());
         
-        return existing;
+        return repo.save(existing);
     }
 
 

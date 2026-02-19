@@ -15,9 +15,9 @@ public class StudentSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args){
-        repo.create(new Student(null, "Mark", "Paul"));
-        repo.create(new Student(null, "Paulo","Mabumba"));
-        repo.create(new Student(null, "Shabaan", "Lazaak"));
+        repo.save(new Student(null, "Mark", "Paul"));
+        repo.save(new Student(null, "Paulo","Mabumba"));
+        repo.save(new Student(null, "Shabaan", "Lazaak"));
     }
     
 }
