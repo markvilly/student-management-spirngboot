@@ -9,7 +9,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 @Service
-public class JwrService {
+public class JwtService {
     
     private static final String SECRET = "CHANGE_ME_CHANGE_ME_CHANGE_ME_123456";
 
