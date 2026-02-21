@@ -18,7 +18,37 @@ public class AuthService {
         this.encoder = encoder;
         this.jwt = jwt;
     }
-    
-    public String register;
+
+    public String register(RegisterRequest req){
+        if(repo.existsByEmail(req.getEmail())){
+            throw new BadRequestException("Email already registered");
+        }
+
+        String role = req.getRole() == null || req.getRole().isBlank() ? "CLIENT" : req.getRole().toUpperCase();
+
+        AppUser user = new AppUser(
+            req.getEmail(),
+            encoder.encode(req.getPassword()),
+            role
+        );
+        repo.save(user);
+        return jwt.generateToken(user.getEmail(), user.getRole());
+    }
+
+    public String login(LoginRequest req){
+        AppUser user = repo.findByEmail(req.getEmail())
+            .orElseThrow(() -> new BadRequestException("Invalid credentials"));
+
+        if (!encoder.matches(req.getPassword(), user.getPasswordHash())){
+            throw new BadRequestException("Invalid credentials");
+        }
+
+        return jwt.generateToken(user.getEmail(), user.getRole());
+    }
+
 
 }
+
+
+
+
