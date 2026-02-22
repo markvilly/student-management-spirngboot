@@ -1,5 +1,6 @@
 package com.mark.studentmanagementsystem.auth;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Service;
@@ -24,5 +25,13 @@ public class JwtService {
         .expiration(new Date(now + 1000L * 60 * 60 * 10))
         .signWith(key)
         .compact();
+    }
+
+    public Claims parseClaims(String token){
+        return Jwts.parser()
+        .verifyWith(key)
+        .build()
+        .parseSignedClaims(token)
+        .getPayload();
     }
 }
